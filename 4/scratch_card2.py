@@ -10,24 +10,31 @@ import re
 
 pattern = r'Card\s*\d+:\s*'
 result = 0
+precalculated_cards = {}
+
 
 def calculate_card(card_number: int, lines: list) -> int:
-    card_result = 1
-    numbers_found = 0
+    if res_calc := precalculated_cards.get(card_number):
+        return res_calc
+    else:
+        card_result = 1
+        numbers_found = 0
 
-    winning_numbers, checking_numbers = lines[card_number].split(" | ")
-    
-    winning_numbers = winning_numbers.split(" ")
-    checking_numbers = checking_numbers.split(" ")
+        winning_numbers, checking_numbers = lines[card_number].split(" | ")
+        
+        winning_numbers = winning_numbers.split(" ")
+        checking_numbers = checking_numbers.split(" ")
 
-    for winning_number in winning_numbers:
-        if winning_number in checking_numbers:
-            numbers_found += 1
-    
-    if numbers_found:
-        for i in range(1, numbers_found + 1):
-            card_result += calculate_card(card_number + i, lines)
+        for winning_number in winning_numbers:
+            if winning_number in checking_numbers:
+                numbers_found += 1
+        
+        if numbers_found:
+            for i in range(1, numbers_found + 1):
+                card_result += calculate_card(card_number + i, lines)
 
+        precalculated_cards[card_number] = card_result
+        
     return card_result
 
 
