@@ -22,8 +22,8 @@ def calculate_card(card_number: int, lines: list) -> int:
 
         winning_numbers, checking_numbers = lines[card_number].split(" | ")
         
-        winning_numbers = winning_numbers.split(" ")
-        checking_numbers = checking_numbers.split(" ")
+        winning_numbers = winning_numbers.split()
+        checking_numbers = checking_numbers.split()
 
         for winning_number in winning_numbers:
             if winning_number in checking_numbers:
@@ -42,7 +42,6 @@ def calculate_card(card_number: int, lines: list) -> int:
 with open('input.txt', 'r') as f:
     content = f.read()
     clean_content = re.sub(pattern, '', content)
-    clean_content = clean_content.replace("  ", " ")
     lines = clean_content.splitlines()
 
     for i, line in enumerate(lines):
